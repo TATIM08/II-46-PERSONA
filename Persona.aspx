@@ -23,6 +23,7 @@
     <%--Validar fecha nacimeinto--%>
     <asp:RequiredFieldValidator ID="rfvFecha" runat="server" 
     CssClass="text-danger"
+    Display ="Dynamic"
     ControlToValidate="txtFechaNac"
     ErrorMessage="Es necesario indicar la fecha"></asp:RequiredFieldValidator>
 
