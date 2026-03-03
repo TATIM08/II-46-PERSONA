@@ -1,5 +1,5 @@
 ﻿Namespace Models
-    Public Class Persona
+    Public Class persona
         Private _nombre As String
         Private _apellidos As String
         Private _tipoDocumento As String

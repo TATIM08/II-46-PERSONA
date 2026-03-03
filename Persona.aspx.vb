@@ -1,27 +1,82 @@
-﻿Public Class Persona
-    Inherits System.Web.UI.Page
+﻿Imports PERSONA.Models
+Imports PERSONA.Utils
 
+Public Class Persona
+    Inherits System.Web.UI.Page
+    Private db As New dbPersona()
     Protected Sub Page_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
 
     End Sub
 
     Protected Sub btnGuardar_Click(sender As Object, e As EventArgs)
-        'Validar la fecha de nacimiento
-        Dim persona = New Models.Persona()
+        Dim persona As New Models.persona()
 
-        'Validar fecha desde el codebehind
-        'Tiene prioridad la validación del aspx sobre la del codebehind
-        If IsDate(txtFechaNac.Text) = False Then
-            lblMensaje.Text = "La fecha de nacimiento no es válida."
+        'Validar campos obligatorios 
+        If txtFechaNac.Text = "" Then
+            lblMensaje.Text = "Por favor, complete todos los campos obligatorios."
             Return
         End If
 
-        persona.Nombre = txtNombre.Text
-        persona.Apellidos = txtApellido.Text
-        persona.FechaNacimiento = txtFechaNac.Text
-        persona.Correo = txtCorreo.Text
-        persona.TipoDocumento = ddlTipoDocumento.SelectedItem.Text
-        persona.NumeroDocumento = txtNumeroDoc.Text
+        persona.Nombre = txtNombre.Text.Trim()
+        persona.Apellidos = txtApellido.Text.Trim()
+        persona.FechaNacimiento = txtFechaNac.Text.Trim()
+        persona.Correo = txtCorreo.Text.Trim()
+        persona.TipoDocumento = ddlTipoDocumento.SelectedItem.Value
+        persona.NumeroDocumento = txtNumeroDoc.Text.Trim()
+
         lblMensaje.Text = persona.Resumen()
+        Dim errorMessage As String = ""
+        Dim resultado = db.CrearPersona(persona, errorMessage)
+
+        If resultado Then
+            SwalUtils.ShowSwal(Me, "Persona creada exitosamente.")
+            gvPersonas.DataBind()
+        Else
+            SwalUtils.ShowSwalError(Me, errorMessage)
+        End If
+    End Sub
+
+    Protected Sub gvPersonas_RowDeleting(sender As Object, e As GridViewDeleteEventArgs)
+        e.Cancel = True ' Cancelar la eliminación predeterminada del GridView
+        Dim id As Integer = Convert.ToInt32(gvPersonas.DataKeys(e.RowIndex).Value)
+        Dim errorMessage As String = ""
+        Dim resultado = db.EliminarPersona(id, errorMessage)
+        If resultado Then
+            SwalUtils.ShowSwal(Me, "Persona eliminada exitosamente.")
+            gvPersonas.DataBind() ' Refrescar el GridView después de eliminar
+        Else
+            SwalUtils.ShowSwalError(Me, errorMessage)
+        End If
+    End Sub
+
+    Protected Sub gvPersonas_RowEditing(sender As Object, e As GridViewEditEventArgs)
+
+    End Sub
+
+    Protected Sub gvPersonas_SelectedIndexChanged(sender As Object, e As EventArgs)
+        hfIdPersona.Value = gvPersonas.DataKeys(gvPersonas.SelectedIndex).Value
+        Dim id As Integer = Convert.ToInt32(hfIdPersona.Value)
+
+
+        Dim errorMessage As String = ""
+        Dim p As Models.persona = db.ConsultarPersona(id, errorMessage)
+
+
+        If p Is Nothing Then
+            SwalUtils.ShowSwalError(Me, If(errorMessage = "", "No se pudo cargar la persona.", errorMessage))
+            Return
+        End If
+
+
+        txtNumeroDoc.Text = p.NumeroDocumento
+        txtNombre.Text = p.Nombre
+        txtApellido.Text = p.Apellidos
+        ddlTipoDocumento.SelectedValue = p.TipoDocumento
+        txtCorreo.Text = p.Correo
+        txtFechaNac.Text = p.FechaNacimiento
+    End Sub
+
+    Protected Sub btnActualizar_Click(sender As Object, e As EventArgs)
+
     End Sub
 End Class

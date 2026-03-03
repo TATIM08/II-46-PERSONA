@@ -222,6 +222,7 @@
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodebehind</SubType>
     </Compile>
+    <Compile Include="dbPersona\dbPersona.vb" />
     <Compile Include="Default.aspx.vb">
       <SubType>ASPXCodeBehind</SubType>
       <DependentUpon>Default.aspx</DependentUpon>
@@ -267,6 +268,7 @@
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Utils\DbHelper.vb" />
+    <Compile Include="Utils\SwalUtils.vb" />
     <Compile Include="ViewSwitcher.ascx.vb">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
