@@ -11,12 +11,6 @@ Public Class Persona
     Protected Sub btnGuardar_Click(sender As Object, e As EventArgs)
         Dim persona As New Models.persona()
 
-        'Validar campos obligatorios 
-        If txtFechaNac.Text = "" Then
-            lblMensaje.Text = "Por favor, complete todos los campos obligatorios."
-            Return
-        End If
-
         persona.Nombre = txtNombre.Text.Trim()
         persona.Apellidos = txtApellido.Text.Trim()
         persona.FechaNacimiento = txtFechaNac.Text.Trim()
@@ -31,6 +25,7 @@ Public Class Persona
         If resultado Then
             SwalUtils.ShowSwal(Me, "Persona creada exitosamente.")
             gvPersonas.DataBind()
+            LimpiarFormulario()
         Else
             SwalUtils.ShowSwalError(Me, errorMessage)
         End If
@@ -73,10 +68,30 @@ Public Class Persona
         txtApellido.Text = p.Apellidos
         ddlTipoDocumento.SelectedValue = p.TipoDocumento
         txtCorreo.Text = p.Correo
-        txtFechaNac.Text = p.FechaNacimiento
+        txtFechaNac.Text = DateTime.Parse(p.FechaNacimiento).ToString("yyyy-MM-dd")
+        btnGuardar.Visible = False
+        btnActualizar.Visible = True
+        btnCancelar.Visible = True
+
     End Sub
 
     Protected Sub btnActualizar_Click(sender As Object, e As EventArgs)
+        LimpiarFormulario()
+    End Sub
 
+    Protected Sub btnCancelar_Click(sender As Object, e As EventArgs)
+        btnGuardar.Visible = True
+        btnActualizar.Visible = False
+        btnCancelar.Visible = False
+        LimpiarFormulario()
+    End Sub
+
+    Protected Sub LimpiarFormulario()
+        txtNumeroDoc.Text = ""
+        txtNombre.Text = ""
+        txtApellido.Text = ""
+        ddlTipoDocumento.SelectedIndex = 0
+        txtCorreo.Text = ""
+        txtFechaNac.Text = ""
     End Sub
 End Class

@@ -6,7 +6,7 @@
     <%-----Nombre-----%>
     <div class="form-group">
         <asp:Label ID="lblNombre" runat="server" Text="Nombre:" CssClass="control-label"> </asp:Label>
-        <asp:TextBox ID="txtNombre" runat="server" Text="Tatiana" placeholder="Nombre" CssClass="form-control"></asp:TextBox>
+        <asp:TextBox ID="txtNombre" runat="server" Text="" placeholder="Nombre" CssClass="form-control"></asp:TextBox>
     </div>
     <%--validar nombre--%>
     <asp:RequiredFieldValidator ID="rfvNombre" runat="server"
@@ -18,7 +18,7 @@
     <%--Apellido--%>
     <div class="form-group">
         <asp:Label ID="lblApellido" runat="server" Text="Apellido:" CssClass="control-label"> </asp:Label>
-        <asp:TextBox ID="txtApellido" runat="server" Text="Murillo" placeholder="Apellidos" CssClass="form-control"></asp:TextBox>
+        <asp:TextBox ID="txtApellido" runat="server" Text="" placeholder="Apellidos" CssClass="form-control"></asp:TextBox>
     </div>
 
     <%--'Validar apellido --%>
@@ -80,7 +80,8 @@
     <asp:HiddenField ID="hfIdPersona" runat="server" />
     <div class="py-3 d-flex gap-2">
         <asp:Button ID="btnGuardar" runat="server" Text="Guardar" CssClass="btn btn-primary" OnClick="btnGuardar_Click" />
-        <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-warning" OnClick="btnActualizar_Click" />
+        <asp:Button ID="btnActualizar" runat="server" Text="Actualizar" CssClass="btn btn-warning" OnClick="btnActualizar_Click" Visible="false" />
+         <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CssClass="btn btn-primary" OnClick="btnCancelar_Click" Visible="false" />
     </div>
     <asp:Label ID="lblMensaje" runat="server" Text="Mensaje" CssClass="d-none"> </asp:Label>
     <div class="table-responsive rounded-3 overflow-hidden border border-secondary bg-dark">

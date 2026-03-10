@@ -39,6 +39,7 @@ Public Class dbPersona
             {"@Id", id}
         }
         Dim dt As DataTable = db.ExecuteQuery(query, parameters, errorMessage)
+
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             Dim row As DataRow = dt.Rows(0)
             Dim persona As New Models.persona() With {
