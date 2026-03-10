@@ -76,6 +76,25 @@ Public Class Persona
     End Sub
 
     Protected Sub btnActualizar_Click(sender As Object, e As EventArgs)
+        Dim persona As New Models.persona()
+        persona.Id_Persona = Convert.ToInt32(hfIdPersona.Value)
+        persona.Nombre = txtNombre.Text.Trim()
+        persona.Apellidos = txtApellido.Text.Trim()
+        persona.FechaNacimiento = txtFechaNac.Text.Trim()
+        persona.Correo = txtCorreo.Text.Trim()
+        persona.TipoDocumento = ddlTipoDocumento.SelectedItem.Value
+        persona.NumeroDocumento = txtNumeroDoc.Text.Trim()
+
+        Dim errorMessage As String = ""
+        Dim resultado = db.ActualizarPersona(persona, errorMessage)
+
+        If resultado Then
+            SwalUtils.ShowSwal(Me, "Persona actualizada exitosamente.")
+            gvPersonas.DataBind() ' Refrescar el GridView después de actualizar
+        Else
+            SwalUtils.ShowSwalError(Me, errorMessage)
+        End If
+
         LimpiarFormulario()
     End Sub
 
